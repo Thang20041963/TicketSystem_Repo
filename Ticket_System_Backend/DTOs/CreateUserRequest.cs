@@ -1,0 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+using Ticket_System_Backend.Models;
+
+namespace Ticket_System_Backend.DTOs
+{
+    public class CreateUserRequest
+    {
+        [Required]
+        public string UserName { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        public string? FullName { get; set; }
+
+        [Required]
+        public Role Role { get; set; }
+    }
+}
