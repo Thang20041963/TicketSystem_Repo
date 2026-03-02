@@ -13,17 +13,20 @@ namespace Ticket_System_Backend.Repositories
         public ICommentRepository Comments { get; }
 
         public IStatusHistoryRepository StatusHistories { get; }
+        public IRefreshTokenRepository RefreshTokens { get; }
         public UnitOfWork(TicketSystemContext context,
                           IUserRepository users,
                           ITicketRepository tickets,
                           ICommentRepository comments,
-                          IStatusHistoryRepository statusHistory)
+                          IStatusHistoryRepository statusHistory,
+                          IRefreshTokenRepository refreshTokens)
         {
             _context = context;
             Users = users;
             Tickets = tickets;
             Comments = comments;
             StatusHistories = statusHistory;
+            RefreshTokens = refreshTokens;
         }
         public async Task BeginTransactionAsync()
             => _transaction = await _context.Database.BeginTransactionAsync();

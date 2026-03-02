@@ -29,6 +29,7 @@ namespace Ticket_System_Backend.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<StatusHistory> StatusHistories { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -200,6 +201,42 @@ namespace Ticket_System_Backend.Models
                 // Composite Index
                 entity.HasIndex(sh => new { sh.TicketId, sh.ChangedAt })
                     .HasDatabaseName("IX_SH_TicketId_ChangedAt");
+            });
+
+            // ===================== REFRESH_TOKENS TABLE =====================
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.ToTable("REFRESH_TOKENS");
+                entity.HasKey(rt => rt.Id);
+
+                entity.Property(rt => rt.Token)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(rt => rt.ExpiresAt)
+                    .IsRequired();
+
+                entity.Property(rt => rt.CreatedAt)
+                    .IsRequired();
+
+                // Relationship
+                entity.HasOne(rt => rt.User)
+                    .WithMany()
+                    .HasForeignKey(rt => rt.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                // Computed properties should be ignored by EF
+                entity.Ignore(rt => rt.IsRevoked);
+                entity.Ignore(rt => rt.IsExpired);
+                entity.Ignore(rt => rt.IsActive);
+
+                // Indexes
+                entity.HasIndex(rt => rt.Token)
+                    .IsUnique()
+                    .HasDatabaseName("IX_RefreshTokens_Token");
+
+                entity.HasIndex(rt => rt.UserId)
+                    .HasDatabaseName("IX_RefreshTokens_UserId");
             });
 
             base.OnModelCreating(modelBuilder);

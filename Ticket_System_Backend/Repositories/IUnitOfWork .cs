@@ -7,6 +7,7 @@
         ICommentRepository Comments { get; }
 
         IStatusHistoryRepository StatusHistories { get; }
+        IRefreshTokenRepository RefreshTokens { get; }
 
         Task BeginTransactionAsync();
         Task CommitAsync();

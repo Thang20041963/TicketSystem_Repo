@@ -1,4 +1,3 @@
-using System.Windows;
 using System.Windows.Input;
 using Ticket_System_App.Helpers;
 using Ticket_System_App.Services;
@@ -40,10 +39,7 @@ namespace Ticket_System_App.ViewModels
         }
 
         public bool IsNotLoading => !IsLoading;
-
         public ICommand LoginCommand { get; }
-
-        // Event để View lắng nghe khi login thành công
         public event Action? LoginSucceeded;
 
         public LoginViewModel()
@@ -61,9 +57,9 @@ namespace Ticket_System_App.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
-                await ApiService.Instance.LoginAsync(Username, Password);
+                await AuthApiService.Instance.LoginAsync(Username, Password);
+                await SignalRService.Instance.StartAsync();
 
-                // Login thành công → thông báo cho View
                 LoginSucceeded?.Invoke();
             }
             catch (Exception ex)
