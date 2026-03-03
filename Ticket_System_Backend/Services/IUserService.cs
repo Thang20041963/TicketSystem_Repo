@@ -9,5 +9,6 @@ namespace Ticket_System_Backend.Services
         Task<UserResponse> CreateAsync(CreateUserRequest request);
         Task UpdateAsync(int id, UpdateUserRequest request);
         Task DeleteAsync(int id);
+        Task<List<UserResponse>> GetSupportersAsync();
     }
 }

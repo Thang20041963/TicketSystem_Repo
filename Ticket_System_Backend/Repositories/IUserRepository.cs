@@ -10,6 +10,6 @@ namespace Ticket_System_Backend.Repositories
         Task AddAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
-        
+        Task<IEnumerable<User>> GetByRoleAsync(Role role);
     }
 }

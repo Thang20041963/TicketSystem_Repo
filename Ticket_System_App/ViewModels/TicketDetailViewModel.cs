@@ -12,6 +12,7 @@ namespace Ticket_System_App.ViewModels
 
         public ObservableCollection<CommentModel> Comments { get; } = new();
         public ObservableCollection<StatusHistoryModel> StatusHistories { get; } = new();
+        public ObservableCollection<UserModel> Supporters { get; } = new();
 
         private TicketDetailModel? _ticket;
         public TicketDetailModel? Ticket { get => _ticket; set => SetProperty(ref _ticket, value); }
@@ -21,6 +22,9 @@ namespace Ticket_System_App.ViewModels
 
         private string _selectedStatus = string.Empty;
         public string SelectedStatus { get => _selectedStatus; set => SetProperty(ref _selectedStatus, value); }
+
+        private UserModel? _selectedSupporter;
+        public UserModel? SelectedSupporter { get => _selectedSupporter; set => SetProperty(ref _selectedSupporter, value); }
 
         private string _statusMessage = string.Empty;
         public string StatusMessage { get => _statusMessage; set => SetProperty(ref _statusMessage, value); }
@@ -35,6 +39,7 @@ namespace Ticket_System_App.ViewModels
 
         public ICommand AddCommentCommand { get; }
         public ICommand UpdateStatusCommand { get; }
+        public ICommand AssignCommand { get; }
 
         public TicketDetailViewModel(int ticketId)
         {
@@ -47,6 +52,10 @@ namespace Ticket_System_App.ViewModels
             UpdateStatusCommand = new RelayCommand(
                 async _ => await UpdateStatusAsync(),
                 _ => !string.IsNullOrWhiteSpace(SelectedStatus));
+
+            AssignCommand = new RelayCommand(
+                async _ => await AssignAsync(),
+                _ => SelectedSupporter != null);
 
             // SignalR – receive real-time comments
             SignalRService.Instance.NewCommentReceived += OnNewCommentReceived;
@@ -66,6 +75,18 @@ namespace Ticket_System_App.ViewModels
 
                 StatusHistories.Clear();
                 foreach (var h in detail.StatusHistories) StatusHistories.Add(h);
+
+                // Load danh sách supporters (chỉ cho ADMIN/SUPPORTER)
+                if (IsAdminOrSupporter)
+                {
+                    var supporters = await UserApiService.Instance.GetSupportersAsync();
+                    Supporters.Clear();
+                    foreach (var s in supporters) Supporters.Add(s);
+
+                    // Pre-select current assignee nếu có
+                    if (detail.AssigneeId.HasValue)
+                        SelectedSupporter = Supporters.FirstOrDefault(s => s.Id == detail.AssigneeId.Value);
+                }
 
                 await SignalRService.Instance.JoinTicketAsync(_ticketId);
             }
@@ -110,6 +131,21 @@ namespace Ticket_System_App.ViewModels
             catch (Exception ex)
             {
                 StatusMessage = $"Lỗi: {ex.Message}";
+            }
+        }
+
+        private async Task AssignAsync()
+        {
+            if (SelectedSupporter == null) return;
+            try
+            {
+                await TicketApiService.Instance.AssignAsync(_ticketId, SelectedSupporter.Id);
+                StatusMessage = $"Đã gán ticket cho {SelectedSupporter.UserName}!";
+                await LoadAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Lỗi gán ticket: {ex.Message}";
             }
         }
 

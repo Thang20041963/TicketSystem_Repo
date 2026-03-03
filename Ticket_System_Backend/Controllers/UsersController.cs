@@ -28,6 +28,17 @@ namespace Ticket_System_Backend.Controllers
         }
 
         /// <summary>
+        /// Get all supporters (Admin/Supporter)
+        /// </summary>
+        [HttpGet("supporters")]
+        [Authorize(Roles = "ADMIN,SUPPORTER")]
+        public async Task<IActionResult> GetSupporters()
+        {
+            var result = await _userService.GetSupportersAsync();
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Get user by ID (Admin only)
         /// </summary>
         [HttpGet("{id}")]

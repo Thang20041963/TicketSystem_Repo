@@ -70,6 +70,12 @@ namespace Ticket_System_Backend.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<List<UserResponse>> GetSupportersAsync()
+        {
+            var supporters = await _unitOfWork.Users.GetByRoleAsync(Role.SUPPORTER);
+            return supporters.Select(MapToResponse).ToList();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var user = await _unitOfWork.Users.GetByIdAsync(id)

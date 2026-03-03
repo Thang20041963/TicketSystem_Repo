@@ -38,6 +38,7 @@ namespace Ticket_System_Backend.Repositories
                 _context.Users.Remove(user);
         }
 
-        
+        public async Task<IEnumerable<User>> GetByRoleAsync(Role role)
+            => await _context.Users.Where(u => u.Role == role).ToListAsync();
     }
 }
