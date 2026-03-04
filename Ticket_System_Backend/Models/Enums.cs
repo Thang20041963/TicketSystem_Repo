@@ -20,6 +20,19 @@ namespace Ticket_System_Backend.Models
         OPEN = 0,
         IN_PROGRESS = 1,
         RESOLVED = 2,
-        CLOSED = 3
+        CLOSED = 3,
+        RE_OPEN =4
     }
+    
+     public enum TicketCategory
+     {
+         GENERAL = 0,
+         NETWORK = 1,
+         HARDWARE = 2,
+         SOFTWARE = 3,
+         ACCOUNT = 4,
+         OTHER = 5
+     }
+
+   
 }

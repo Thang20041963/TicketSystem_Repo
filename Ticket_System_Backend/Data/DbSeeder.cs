@@ -98,7 +98,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp1.Id,
                     AssigneeId  = null,
                     CreatedAt   = DateTime.UtcNow.AddDays(-5),
-                    UpdatedAt   = DateTime.UtcNow.AddDays(-5)
+                    UpdatedAt   = DateTime.UtcNow.AddDays(-5),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 },
                 new Ticket
                 {
@@ -109,7 +111,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp2.Id,
                     AssigneeId  = support1.Id,
                     CreatedAt   = DateTime.UtcNow.AddDays(-3),
-                    UpdatedAt   = DateTime.UtcNow.AddDays(-1)
+                    UpdatedAt   = DateTime.UtcNow.AddDays(-1),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 },
                 new Ticket
                 {
@@ -120,7 +124,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp3.Id,
                     AssigneeId  = null,
                     CreatedAt   = DateTime.UtcNow.AddDays(-2),
-                    UpdatedAt   = DateTime.UtcNow.AddDays(-2)
+                    UpdatedAt   = DateTime.UtcNow.AddDays(-2),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 },
                 new Ticket
                 {
@@ -131,7 +137,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp1.Id,
                     AssigneeId  = support2.Id,
                     CreatedAt   = DateTime.UtcNow.AddDays(-1),
-                    UpdatedAt   = DateTime.UtcNow.AddHours(-2)
+                    UpdatedAt   = DateTime.UtcNow.AddHours(-2),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 },
                 new Ticket
                 {
@@ -142,7 +150,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp2.Id,
                     AssigneeId  = support1.Id,
                     CreatedAt   = DateTime.UtcNow.AddDays(-7),
-                    UpdatedAt   = DateTime.UtcNow.AddDays(-6)
+                    UpdatedAt   = DateTime.UtcNow.AddDays(-6),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 },
                 new Ticket
                 {
@@ -153,7 +163,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp3.Id,
                     AssigneeId  = support1.Id,
                     CreatedAt   = DateTime.UtcNow.AddDays(-10),
-                    UpdatedAt   = DateTime.UtcNow.AddDays(-9)
+                    UpdatedAt   = DateTime.UtcNow.AddDays(-9),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 },
                 new Ticket
                 {
@@ -164,7 +176,9 @@ namespace Ticket_System_Backend.Data
                     CreatorId   = emp1.Id,
                     AssigneeId  = null,
                     CreatedAt   = DateTime.UtcNow.AddHours(-5),
-                    UpdatedAt   = DateTime.UtcNow.AddHours(-5)
+                    UpdatedAt   = DateTime.UtcNow.AddHours(-5),
+                    Category    = TicketCategory.GENERAL,
+                    IsDeleted   = false,
                 }
             };
 

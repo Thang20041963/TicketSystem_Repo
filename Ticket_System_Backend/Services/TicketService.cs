@@ -33,9 +33,9 @@ namespace Ticket_System_Backend.Services
             return MapToResponse(saved!);
         }
 
-        public async Task<List<TicketResponse>> GetAllAsync(TicketStatus? status, Priority? priority, int? assigneeId)
+        public async Task<List<TicketResponse>> GetAllAsync(TicketStatus? status, Priority? priority, TicketCategory? category, int? assigneeId)
         {
-            var tickets = await _unitOfWork.Tickets.GetAllAsync(status, priority, assigneeId);
+            var tickets = await _unitOfWork.Tickets.GetAllAsync(status, priority, category, assigneeId);
             return tickets.Select(MapToResponse).ToList();
         }
 

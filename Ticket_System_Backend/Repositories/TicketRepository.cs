@@ -12,7 +12,7 @@ namespace Ticket_System_Backend.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Ticket>> GetAllAsync(TicketStatus? status, Priority? priority, int? assigneeId)
+        public async Task<IEnumerable<Ticket>> GetAllAsync(TicketStatus? status, Priority? priority,TicketCategory? category , int? assigneeId)
         {
             var query = _context.Tickets
                 .Include(t => t.Creator)
@@ -24,7 +24,8 @@ namespace Ticket_System_Backend.Repositories
 
             if (priority.HasValue)
                 query = query.Where(t => t.Priority == priority.Value);
-
+            if (category.HasValue)
+                query = query.Where(t => t.Category == category.Value);
             if (assigneeId.HasValue)
                 query = query.Where(t => t.AssigneeId == assigneeId.Value);
 
@@ -62,5 +63,7 @@ namespace Ticket_System_Backend.Repositories
             if (ticket != null)
                 _context.Tickets.Remove(ticket);
         }
+
+        
     }
 }

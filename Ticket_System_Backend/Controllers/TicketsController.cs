@@ -44,9 +44,10 @@ namespace Ticket_System_Backend.Controllers
         public async Task<IActionResult> GetAll(
             [FromQuery] TicketStatus? status,
             [FromQuery] Priority? priority,
+            [FromQuery] TicketCategory? category,
             [FromQuery] int? assigneeId)
         {
-            var result = await _ticketService.GetAllAsync(status, priority, assigneeId);
+            var result = await _ticketService.GetAllAsync(status, priority, category, assigneeId);
             return Ok(result);
         }
 

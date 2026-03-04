@@ -34,6 +34,31 @@ namespace Ticket_System_Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "REFRESH_TOKENS",
+                schema: "TICKET_USER",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Token = table.Column<string>(type: "NVARCHAR2(500)", maxLength: 500, nullable: false),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    RevokedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_REFRESH_TOKENS", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_REFRESH_TOKENS_USERS_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "TICKET_USER",
+                        principalTable: "USERS",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TICKETS",
                 schema: "TICKET_USER",
                 columns: table => new
@@ -47,7 +72,10 @@ namespace Ticket_System_Backend.Migrations
                     CreatorId = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     AssigneeId = table.Column<int>(type: "NUMBER(10)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    Category = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,6 +184,19 @@ namespace Ticket_System_Backend.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_Token",
+                schema: "TICKET_USER",
+                table: "REFRESH_TOKENS",
+                column: "Token",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                schema: "TICKET_USER",
+                table: "REFRESH_TOKENS",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SH_TicketId_ChangedAt",
                 schema: "TICKET_USER",
                 table: "STATUS_HISTORIES",
@@ -247,6 +288,10 @@ namespace Ticket_System_Backend.Migrations
         {
             migrationBuilder.DropTable(
                 name: "COMMENTS",
+                schema: "TICKET_USER");
+
+            migrationBuilder.DropTable(
+                name: "REFRESH_TOKENS",
                 schema: "TICKET_USER");
 
             migrationBuilder.DropTable(

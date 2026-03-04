@@ -35,6 +35,7 @@ namespace Ticket_System_Backend.Models
         {
             modelBuilder.HasDefaultSchema("TICKET_USER");
 
+
             // ===================== USERS TABLE =====================
             modelBuilder.Entity<User>(entity =>
             {
@@ -90,6 +91,9 @@ namespace Ticket_System_Backend.Models
 
                 entity.Property(t => t.Status)
                     .IsRequired();
+                entity.Property(t=>t.Category)
+                .IsRequired();
+                entity.Property(t => t.IsDeleted).HasColumnType("NUMBER(1)"); ;
 
                 // Relationships
                 entity.HasOne(t => t.Creator)

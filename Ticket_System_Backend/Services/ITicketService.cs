@@ -6,7 +6,7 @@ namespace Ticket_System_Backend.Services
     public interface ITicketService
     {
         Task<TicketResponse> CreateAsync(int creatorId, CreateTicketRequest request);
-        Task<List<TicketResponse>> GetAllAsync(TicketStatus? status, Priority? priority, int? assigneeId);
+        Task<List<TicketResponse>> GetAllAsync(TicketStatus? status, Priority? priority, TicketCategory? category, int? assigneeId);
         Task<List<TicketResponse>> GetMyTicketsAsync(int creatorId);
         Task<TicketDetailResponse> GetByIdAsync(int id);
         Task AssignAsync(int ticketId, AssignTicketRequest request);

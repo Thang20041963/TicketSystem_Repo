@@ -8,8 +8,9 @@ namespace Ticket_System_Backend.Models
         public int Id { get; set; }
 
         [Required]
+        
         public string Title { get; set; } = string.Empty;
-
+        
         public string? Description { get; set; }
 
         public Priority Priority { get; set; } = Priority.MEDIUM;
@@ -28,5 +29,11 @@ namespace Ticket_System_Backend.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+
+         public TicketCategory Category { get; set; } = TicketCategory.GENERAL;
+         public bool IsDeleted { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
+
+
 }

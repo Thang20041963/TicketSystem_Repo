@@ -12,8 +12,8 @@ using Ticket_System_Backend.Models;
 namespace Ticket_System_Backend.Migrations
 {
     [DbContext(typeof(TicketSystemContext))]
-    [Migration("20260228144008_SeedData")]
-    partial class SeedData
+    [Migration("20260304142417_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,43 @@ namespace Ticket_System_Backend.Migrations
                         .HasDatabaseName("IX_Comments_TicketId_CrAt");
 
                     b.ToTable("COMMENTS", "TICKET_USER");
+                });
+
+            modelBuilder.Entity("Ticket_System_Backend.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TIMESTAMP(7)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("TIMESTAMP(7)");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("TIMESTAMP(7)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("NVARCHAR2(500)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .IsUnique()
+                        .HasDatabaseName("IX_RefreshTokens_Token");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_RefreshTokens_UserId");
+
+                    b.ToTable("REFRESH_TOKENS", "TICKET_USER");
                 });
 
             modelBuilder.Entity("Ticket_System_Backend.Models.StatusHistory", b =>
@@ -116,15 +153,24 @@ namespace Ticket_System_Backend.Migrations
                     b.Property<int?>("AssigneeId")
                         .HasColumnType("NUMBER(10)");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("NUMBER(10)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<int>("CreatorId")
                         .HasColumnType("NUMBER(10)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TIMESTAMP(7)");
+
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
                         .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("NUMBER(1)");
 
                     b.Property<int>("Priority")
                         .HasColumnType("NUMBER(10)");
@@ -230,6 +276,17 @@ namespace Ticket_System_Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Ticket");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Ticket_System_Backend.Models.RefreshToken", b =>
+                {
+                    b.HasOne("Ticket_System_Backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

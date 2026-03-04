@@ -150,15 +150,24 @@ namespace Ticket_System_Backend.Migrations
                     b.Property<int?>("AssigneeId")
                         .HasColumnType("NUMBER(10)");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("NUMBER(10)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<int>("CreatorId")
                         .HasColumnType("NUMBER(10)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TIMESTAMP(7)");
+
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
                         .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("NUMBER(1)");
 
                     b.Property<int>("Priority")
                         .HasColumnType("NUMBER(10)");
